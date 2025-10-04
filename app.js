@@ -3,6 +3,7 @@ import path from "path";
 import express from "express";
 import bodyParser from "body-parser";
 import { fileURLToPath } from "url";
+import { LoggerMiddleware } from "./middlewares/logger.js";
 
 const app = express();
 
@@ -15,6 +16,7 @@ const usersFilePath = path.join(__dirname, "users.json");
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(LoggerMiddleware);
 
 // Ruta principal.
 app.get("/", (req, res) => {
@@ -65,6 +67,7 @@ app.post("/api/data", (req, res) => {
   res.status(201).json({ message: "Datos JSON recibidos", data });
 });
 
+// Obtener
 app.get("/users", (req, res) => {
   fs.readFile(usersFilePath, "utf8", (err, data) => {
     if (err) {
@@ -75,6 +78,7 @@ app.get("/users", (req, res) => {
   });
 });
 
+// Crear
 app.post("/users", (req, res) => {
   const newUsers = req.body;
 
@@ -98,6 +102,7 @@ app.post("/users", (req, res) => {
   res.status(201).json(newUsers);
 });
 
+// Actualizar
 app.put("/users/:id", (req, res) => {
   const userId = parseInt(req.params.id, 10);
   const updateUser = req.body;
@@ -119,6 +124,7 @@ app.put("/users/:id", (req, res) => {
   });
 });
 
+// Eliminar
 app.delete("/users/:id", (req, res) => {
   const userId = parseInt(req.params.id, 10);
   fs.readFile(usersFilePath, "utf-8", (err, data) => {
