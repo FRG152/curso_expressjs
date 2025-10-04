@@ -4,6 +4,7 @@ import express from "express";
 import bodyParser from "body-parser";
 import { fileURLToPath } from "url";
 import { LoggerMiddleware } from "./middlewares/logger.js";
+import { errorHandler } from "./middlewares/errorHandler.js";
 
 const app = express();
 
@@ -17,6 +18,7 @@ const usersFilePath = path.join(__dirname, "users.json");
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(LoggerMiddleware);
+app.use(errorHandler);
 
 // Ruta principal.
 app.get("/", (req, res) => {
@@ -140,6 +142,10 @@ app.delete("/users/:id", (req, res) => {
     });
     res.status(204).send();
   });
+});
+
+app.get("/error", (req, res, next) => {
+  next(new Error("Error Intencional"));
 });
 
 app.listen(PORT, () => {
