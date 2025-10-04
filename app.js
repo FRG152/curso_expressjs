@@ -2,11 +2,13 @@ import express from "express";
 import bodyParser from "body-parser";
 
 const app = express();
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
 
 const PORT = process.env.PORT || 3000;
 
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+
+// Ruta principal.
 app.get("/", (req, res) => {
   res.send(`
     <h1>Curso Express.js V5</h1>
@@ -14,6 +16,26 @@ app.get("/", (req, res) => {
     <p>Corre en el puerto: ${PORT}</p>
   `);
 });
+
+// Rutas dinamicas.
+app.get("/users/:id", (req, res) => {
+  const userId = req.params.id;
+  res.send(`Mostrar informacion del usuario con ID: ${userId}`);
+});
+
+// Por parametros (parametros de la url).
+app.get("/search", (req, res) => {
+  const terms = req.query.termino || "No especificado";
+  const category = req.query.category || "Todas";
+  res.send(`
+    <h2>Resultados de busqueda:</h2>
+    <p>Termino: ${terms}</p>
+    <p>Categoria: ${category}</p>
+  `);
+});
+
+// Para recibir la informacion.
+app.post("/form", (req, res) => {});
 
 app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}`);
