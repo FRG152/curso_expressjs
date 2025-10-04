@@ -75,6 +75,29 @@ app.get("/users", (req, res) => {
   });
 });
 
+app.post("/users", (req, res) => {
+  const newUsers = req.body;
+  if (newUsers.name.length === 0 || newUsers.name === "") {
+    res.status(500).json({ error: "name no esta definido" });
+  }
+  fs.readFile(usersFilePath, "utf-8", (err, data) => {
+    if (err) {
+      return res.status(500).json({ error: "Error con la conexion de datos." });
+    }
+
+    const users = JSON.parse(data);
+    users.push(newUsers);
+
+    fs.writeFile(
+      usersFilePath,
+      JSON.stringify(users, null, 2, (err) => {
+        if (err)
+          res.status(500).json({ error: "No se pudo guardar el usuario" });
+      })
+    );
+  });
+});
+
 app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}`);
 });
