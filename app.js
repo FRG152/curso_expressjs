@@ -36,7 +36,7 @@ app.get("/search", (req, res) => {
 
 // Para recibir la informacion.
 app.post("/form", (req, res) => {
-  const name = req.body.nombre || "Anonimo";
+  const name = req.body.name || "Anonimo";
   const email = req.body.email || "No proporcionado";
   res.json({
     message: "Datos recibidos",
