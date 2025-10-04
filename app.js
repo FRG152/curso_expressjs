@@ -68,7 +68,7 @@ app.post("/api/data", (req, res) => {
 app.get("/users", (req, res) => {
   fs.readFile(usersFilePath, "utf8", (err, data) => {
     if (err) {
-      res.status(500).json({ error: "Error con la conexion de datos" });
+      res.status(500).json({ error: "Error con la conexion de datos." });
     }
     const users = JSON.parse(data);
     res.json(users);
@@ -96,6 +96,27 @@ app.post("/users", (req, res) => {
   });
 
   res.status(201).json(newUsers);
+});
+
+app.put("/users/:id", (req, res) => {
+  const userId = parseInt(req.params.id, 10);
+  const updateUser = req.body;
+
+  fs.readFile(usersFilePath, "utf-8", (err, data) => {
+    if (err) {
+      return res.status(500).json({ error: "Error con la conexion de datos." });
+    }
+
+    let users = JSON.parse(data);
+    users = users.map((user) =>
+      user.id === userId ? { ...user, ...updateUser } : user
+    );
+    fs.writeFile(usersFilePath, JSON.stringify(users, null, 2), (err) => {
+      if (err)
+        res.status(500).json({ error: "No se pudo actualizar el usuario" });
+    });
+    res.json(updateUser);
+  });
 });
 
 app.listen(PORT, () => {
