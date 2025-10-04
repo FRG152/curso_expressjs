@@ -1,17 +1,7 @@
 [
   {
-    "id": 1,
-    "name": "Usuario 1",
-    "email": "usuario1@example.com"
-  },
-  {
     "id": 2,
     "name": "John Smith",
     "email": "johnsmith@gmail.com"
-  },
-  {
-    "id": 1,
-    "name": "Jessica",
-    "email": "jessica@gmail.com"
   }
 ]
