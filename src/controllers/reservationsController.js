@@ -29,8 +29,8 @@ export const getReservations = async (req, res) => {
 export const updateReservations = async (req, res) => {
   try {
     const reservations = await updateReservationsService(
-      req.body,
-      req.params.id
+      req.params.id,
+      req.body
     );
 
     if (!reservations) {
