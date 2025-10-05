@@ -7,19 +7,18 @@ const prisma = new PrismaClient();
 export const registerUser = async (email, password, name) => {
   const hashedPassword = await bcrypt.hash(password, 10);
   const newUser = await prisma.user.create({
-    data: email,
-    password: hashedPassword,
-    name,
+    data: {
+      email,
+      password: hashedPassword,
+      name,
+      role: "ADMIN",
+    },
   });
   return newUser;
 };
 
 export const loginUser = async (email, password) => {
-  console.log(email, password);
-
   const user = await prisma.user.findUnique({ where: { email } });
-
-  console.log(user);
 
   if (!user) {
     throw new Error("Invalid email or password");
