@@ -6,6 +6,7 @@ import { errorHandler } from "./middlewares/errorHandler.js";
 import { fileURLToPath } from "url";
 import { LoggerMiddleware } from "./middlewares/logger.js";
 import { PrismaClient } from "./generated/prisma/index.js";
+import { authenticateToken } from "./middlewares/auth.js";
 
 const app = express();
 const prisma = new PrismaClient();
@@ -159,6 +160,10 @@ app.get("/db-users", async (req, res) => {
       .status(500)
       .json({ error: "Error al comunicarse con la base de datos." });
   }
+});
+
+app.get("/protected-route", authenticateToken, (req, res) => {
+  res.send("Esta es una ruta protegida");
 });
 
 app.listen(PORT, () => {
