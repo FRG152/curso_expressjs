@@ -13,6 +13,7 @@ export const createReservationsService = async (data) => {
   if (conflict) {
     throw new Error("El horario ya esta ocupado");
   }
+
   return prisma.appointment.create({ data });
 };
 
