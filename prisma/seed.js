@@ -1,6 +1,7 @@
 // prisma/seed.js
 
-const { PrismaClient } = require("@prisma/client");
+import { PrismaClient } from "../generated/prisma/index.js";
+
 const prisma = new PrismaClient();
 
 async function main() {
@@ -19,7 +20,7 @@ async function main() {
       email: "admin@example.com",
       password: "admin123",
       name: "Admin User",
-      role: "ADMIN",
+      role: "ADIM",
     },
   });
 
