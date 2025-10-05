@@ -164,24 +164,6 @@ app.get("/db-users", async (req, res) => {
   }
 });
 
-app.get("/protected-route", authenticateToken, (req, res) => {
-  res.send("Esta es una ruta protegida");
-});
-
-app.post("/register", async (req, res) => {
-  const { email, password, name } = req.body;
-  const hashedPassword = await bcrypt.hash(password, 10);
-  const newUser = await prisma.user.create({
-    data: {
-      email,
-      name,
-      password: hashedPassword,
-      role: "USER",
-    },
-  });
-  res.status(201).json({ message: "User Registered Successfully" });
-});
-
 app.post("/login", async (req, res) => {
   const { email, password } = req.body;
   const user = await prisma.user.findUnique({ where: { email } });
