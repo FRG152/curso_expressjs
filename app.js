@@ -2,11 +2,11 @@ import fs from "fs";
 import path from "path";
 import express from "express";
 import bodyParser from "body-parser";
-import { errorHandler } from "./middlewares/errorHandler.js";
+import { errorHandler } from "./src/middlewares/errorHandler.js";
 import { fileURLToPath } from "url";
-import { LoggerMiddleware } from "./middlewares/logger.js";
+import { LoggerMiddleware } from "./src/middlewares/logger.js";
 import { PrismaClient } from "./generated/prisma/index.js";
-import { authenticateToken } from "./middlewares/auth.js";
+import { authenticateToken } from "./src/middlewares/auth.js";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
 
