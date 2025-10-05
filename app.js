@@ -2,11 +2,13 @@ import fs from "fs";
 import path from "path";
 import express from "express";
 import bodyParser from "body-parser";
+import { errorHandler } from "./middlewares/errorHandler.js";
 import { fileURLToPath } from "url";
 import { LoggerMiddleware } from "./middlewares/logger.js";
-import { errorHandler } from "./middlewares/errorHandler.js";
+import { PrismaClient } from "./generated/prisma/index.js";
 
 const app = express();
+const prisma = new PrismaClient();
 
 const PORT = process.env.PORT || 3000;
 
@@ -146,6 +148,17 @@ app.delete("/users/:id", (req, res) => {
 
 app.get("/error", (req, res, next) => {
   next(new Error("Error Intencional"));
+});
+
+app.get("/db-users", async (req, res) => {
+  try {
+    const users = await prisma.user.findMany();
+    res.json(users);
+  } catch (error) {
+    res
+      .status(500)
+      .json({ error: "Error al comunicarse con la base de datos." });
+  }
 });
 
 app.listen(PORT, () => {
