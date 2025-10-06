@@ -1,4 +1,6 @@
 import { Router } from "express";
+
+// Rutas
 import authRouter from "./auth.js";
 import adminRouter from "./admin.js";
 import reservationsRouter from "./reservations.js";
